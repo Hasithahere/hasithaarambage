@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Child Learning Profile Quiz</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f0f8ff; margin: 0; padding: 20px; }
+  h1, h2 { text-align: center; }
+  .question { margin-bottom: 20px; padding: 15px; background: #ffffff; border-radius: 10px; box-shadow: 0px 0px 8px #ccc; }
+  .answers label { display: block; margin: 8px 0; cursor: pointer; }
+  input[type="text"], input[type="date"] { width: 90%; padding: 5px; margin: 5px auto; display: block; border-radius: 5px; border: 1px solid #ccc; }
+  button { display: block; margin: 20px auto; padding: 10px 20px; font-size: 16px; background: #4caf50; color: white; border: none; border-radius: 8px; cursor: pointer; }
+  button:hover { background: #45a049; }
+  #result { margin-top: 30px; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px #ccc; background: #fff8dc; text-align: center; }
+  .result-section { margin: 10px 0; padding: 10px; border-radius: 8px; font-size: 18px; font-weight: bold; color: white; }
+  .visual { background: #4caf50; }
+  .auditory { background: #2196f3; }
+  .readingwriting { background: #ff9800; }
+  .kinesthetic { background: #9c27b0; }
+  .fast { background: #f44336; }
+  .average { background: #ffeb3b; color: black; }
+  .slow { background: #607d8b; }
+  .independent { background: #795548; }
+  .group { background: #00bcd4; }
+  .collaborative { background: #e91e63; }
+  .handson { background: #ff5722; }
+</style>
+</head>
+<body>
+
+<h1>Child Learning Profile Questionnaire</h1>
+<p>Fill in your child's details, answer the questions, and see their personalized learning profile.</p>
+
+<!-- Child Info -->
+<div class="question">
+  <h2>Child's Name:</h2>
+  <input type="text" id="childName" placeholder="Enter child's name">
+  <h2>Date:</h2>
+  <input type="date" id="profileDate">
+</div>
+
+<form id="quizForm">
+
+<!-- Questions -->
+<div class="question">
+  <h2>1. When learning something new, my child usually:</h2>
+  <div class="answers">
+    <label><input type="radio" name="q1" value="Visual"> Looks at pictures, diagrams, or videos</label>
+    <label><input type="radio" name="q1" value="Auditory"> Listens carefully and repeats what was said</label>
+    <label><input type="radio" name="q1" value="ReadingWriting"> Reads or writes notes to understand</label>
+    <label><input type="radio" name="q1" value="Kinesthetic"> Tries it out with hands or body movements</label>
+  </div>
+</div>
+
+<div class="question">
+  <h2>2. My child remembers best when:</h2>
+  <div class="answers">
+    <label><input type="radio" name="q2" value="Visual"> Seeing charts, diagrams, or videos</label>
+    <label><input type="radio" name="q2" value="Auditory"> Listening to stories, explanations, or songs</label>
+    <label><input type="radio" name="q2" value="ReadingWriting"> Reading or writing notes</label>
+    <label><input type="radio" name="q2" value="Kinesthetic"> Doing the activity physically</label>
+  </div>
+</div>
+
+<div class="question">
+  <h2>3. When introduced to new concepts, my child:</h2>
+  <div class="answers">
+    <label><input type="radio" name="q3" value="Fast"> Picks it up very quickly</label>
+    <label><input type="radio" name="q3" value="Average"> Understands at a normal pace</label>
+    <label><input type="radio" name="q3" value="Slow"> Needs extra practice and explanation</label>
+  </div>
+</div>
+
+<div class="question">
+  <h2>4. My child prefers to:</h2>
+  <div class="answers">
+    <label><input type="radio" name="q4" value="Independent"> Work alone</label>
+    <label><input type="radio" name="q4" value="Group"> Work in small groups</label>
+    <label><input type="radio" name="q4" value="Collaborative"> Learn through discussions or teamwork</label>
+    <label><input type="radio" name="q4" value="HandsOn"> Learn by doing activities together</label>
+  </div>
+</div>
+
+<div class="question">
+  <h2>5. When solving a problem, my child:</h2>
+  <div class="answers">
+    <label><input type="radio" name="q5" value="Visual"> Breaks it down step by step (analytical)</label>
+    <label><input type="radio" name="q5" value="Auditory"> Thinks of creative solutions (imaginative)</label>
+    <label><input type="radio" name="q5" value="ReadingWriting"> Reads instructions or writes notes again</label>
+    <label><input type="radio" name="q5" value="Kinesthetic"> Experiments with hands-on approaches</label>
+  </div>
+</div>
+
+<div class="question">
+  <h2>6. My child is more motivated by:</h2>
+  <div class="answers">
+    <label><input type="radio" name="q6" value="Intrinsic"> Curiosity and personal interest</label>
+    <label><input type="radio" name="q6" value="Extrinsic"> Praise, rewards, or encouragement</label>
+    <label><input type="radio" name="q6" value="Instructions"> Clear instructions and goals</label>
+    <label><input type="radio" name="q6" value="HandsOn"> Active, fun tasks</label>
+  </div>
+</div>
+
+<button type="button" onclick="calculateProfile()">Show Result</button>
+<button type="button" onclick="printProfile()">Print / Save as PDF</button>
+</form>
+
+<div id="result"></div>
+
+<!-- Highlighted credit -->
+<p style="text-align:center; margin-top:20px; font-size:18px; font-weight:bold; color:#e91e63;">✨ Made by Hasitha Arambage ✨</p>
+
+<script>
+function calculateProfile() {
+  const form = document.getElementById('quizForm');
+  const childName = document.getElementById('childName').value.trim() || "Your child";
+  const profileDate = document.getElementById('profileDate').value || new Date().toLocaleDateString();
+
+  const learningAnswers = ['q1','q2','q5'];
+  const paceAnswer = 'q3';
+  const socialAnswer = 'q4';
+
+  let styleScore = {Visual:0, Auditory:0, ReadingWriting:0, Kinesthetic:0};
+  learningAnswers.forEach(q => {
+    const val = form.elements[q].value;
+    if(val) styleScore[val]++;
+  });
+
+  let max = 0, learningStyle = '';
+  for(let key in styleScore){
+    if(styleScore[key] > max){
+      max = styleScore[key];
+      learningStyle = key;
+    }
+  }
+
+  const pace = form.elements[paceAnswer].value;
+  const social = form.elements[socialAnswer].value;
+
+  let resultHTML = `<h2>${childName}'s Learning Profile</h2><p>Date: ${profileDate}</p>`;
+
+  const styleMap = {
+    Visual: ['Visual Learner 🖼️', 'visual'],
+    Auditory: ['Auditory Learner 🎧', 'auditory'],
+    ReadingWriting: ['Reading/Writing Learner 📖', 'readingwriting'],
+    Kinesthetic: ['Kinesthetic Learner 🏃', 'kinesthetic']
+  };
+  if(learningStyle) resultHTML += `<div class="result-section ${styleMap[learningStyle][1]}">${styleMap[learningStyle][0]}</div>`;
+
+  const paceMap = {
+    Fast: ['Fast Learner 🚀', 'fast'],
+    Average: ['Average pace ⏳', 'average'],
+    Slow: ['Needs extra support 🐢', 'slow']
+  };
+  if(pace) resultHTML += `<div class="result-section ${paceMap[pace][1]}">${paceMap[pace][0]}</div>`;
+
+  const socialMap = {
+    Independent: ['Prefers to learn Independently ✍️', 'independent'],
+    Group: ['Prefers Group learning 👨‍👩‍👧‍👦', 'group'],
+    Collaborative: ['Enjoys Collaborative learning 🗣️', 'collaborative'],
+    HandsOn: ['Learns best Hands-On 🏃', 'handson']
+  };
+  if(social) resultHTML += `<div class="result-section ${socialMap[social][1]}">${socialMap[social][0]}</div>`;
+
+  document.getElementById('result').innerHTML = resultHTML;
+}
+
+function printProfile() {
+  const result = document.getElementById('result');
+  if(result.innerHTML.trim() === "") {
+    alert("Please calculate the profile first!");
+    return;
+  }
+  const originalContent = document.body.innerHTML;
+  document.body.innerHTML = result.innerHTML + 
+  '<p style="text-align:center; margin-top:20px; font-size:18px; font-weight:bold; color:#e91e63;">✨ Made by Hasitha Arambage ✨</p>';
+  window.print();
+  document.body.innerHTML = originalContent;
+}
+</script>
+
+</body>
+</html>
